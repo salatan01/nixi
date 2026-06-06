@@ -1,14 +1,19 @@
 { config, pkgs, ... }:
-
 {
-  # Keep the assets symlinked
-  xdg.configFile."fastfetch/assets".source = ./assets;
-
   programs.fastfetch = {
     enable = true;
     settings = {
       "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
-
+      # logo = {
+      #   source = "${config.xdg.configHome}/assets/";
+      #   type = "auto";
+      #   width = 25;
+      #   padding = {
+      #     top = 1;
+      #     right = 4;
+      #     left = 3;
+      #   };
+      # };
       logo = {
         # This shell command picks a random file from the directory
         source = "$(find ${config.xdg.configHome}/fastfetch/assets/fflogo -type f | shuf -n 1)";
@@ -22,80 +27,85 @@
       };
 
       display = {
-        separator = "";
-        color = {
-          keys = "blue";
-          title = "cyan";
-        };
+        separator = " ";
       };
-
       modules = [
-        "title"
         {
-          type = "os";
-          key = "OS      ⚡ ";
-          format = "NixOS {version}";
+          key = "╭───────────╮";
+          type = "custom";
         }
         {
-          type = "kernel";
-          key = "Kernel  ⚡ ";
+          key = "│ {#31} user    {#keys}│";
+          type = "title";
+          format = "{user-name}";
         }
         {
-          type = "packages";
-          key = "Pkgs    ⚡ ";
-        }
-        {
-          type = "uptime";
-          key = "Uptime  ⚡ ";
+          key = "│ {#32}󰇅 hname   {#keys}│";
+          type = "title";
+          format = "{host-name}";
         }
         {
           type = "command";
-          key = "Age     ⚡ ";
-          shell = "/bin/sh";
-          text = "birth=$(stat -c %Y /nix/var/nix/profiles/system-1-link 2>/dev/null || stat -c %Y /); now=$(date +%s); echo $(((now - birth) / 86400)) days";
+          key = "│ {#33}󱦟 os age  {#keys}│";
+          keyColor = "magenta";
+          text = ''
+            printf '\e[0m%s days\e[0m' "$(( ($(date +%s) - $(stat -c %W /)) / 86400 ))"
+          '';
         }
-        "break"
         {
+          key = "│ {#34}󰅐 uptime  {#keys}│";
+          type = "uptime";
+        }
+        {
+          key = "│ {#34}{icon} distro  {#keys}│";
+          type = "os";
+        }
+        {
+          key = "│ {#35} kernel  {#keys}│";
+          type = "kernel";
+        }
+        {
+          key = "│ {#36}󱂬 wm      {#keys}│";
+          type = "wm";
+        }
+        {
+          key = "│ {#36}󰇄 desktop {#keys}│";
+          type = "de";
+        }
+        {
+          key = "│ {#31} term    {#keys}│";
+          type = "terminal";
+        }
+        {
+          key = "│ {#32} shell   {#keys}│";
           type = "shell";
-          key = "Shell   ⚡ ";
         }
         {
+          key = "│ {#33}󰍛 cpu     {#keys}│";
           type = "cpu";
-          key = "CPU     ⚡ ";
+          showPeCoreCount = true;
         }
         {
-          type = "gpu";
-          key = "GPU     ⚡ ";
+          key = "│ {#34}󰉉 disk    {#keys}│";
+          type = "disk";
+          folders = "/";
         }
         {
+          key = "│ {#36} memory  {#keys}│";
           type = "memory";
-          key = "RAM     ⚡ ";
-        }
-        "break"
-        {
-          type = "custom";
-          format = "{#34}One step at a time";
-          key = "          ";
         }
         {
+          key = "├───────────┤";
           type = "custom";
-          format = "{#34}No matter how long it takes";
-          key = "          ";
         }
         {
-          type = "custom";
-          format = "{#36}I will make the climb";
-          key = "          ";
+          key = "│ {#39} colors  {#keys}│";
+          type = "colors";
+          symbol = "circle";
         }
         {
+          key = "╰───────────╯";
           type = "custom";
-          format = "{#36}Learn from the mistakes I've made";
-          key = "          ";
-        }
-        {
-          type = "custom";
-          format = "{#1}  - ONE OK ROCK";
-          key = "          ";
         }
       ];
     };

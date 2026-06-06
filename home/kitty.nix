@@ -30,7 +30,7 @@
       # --- Padding & Layout ---
       #window_padding_width = "22";
       confirm_os_window_close = "0";
-      hide_window_decorations = "yes";
+      hide_window_decorations = "no";
 
       # --- Typographic "Juice" ---
       disable_ligatures = "never"; # Essential for that "flowy" code look
