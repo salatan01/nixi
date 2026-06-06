@@ -33,9 +33,13 @@
   users.users.nightkat01 = {
     isNormalUser = true;
     description = "SulTan Mahmud";
+    shell = pkgs.zsh;
     extraGroups = [
       "networkmanager"
       "wheel"
+      "video"
+      "audio"
+      "lp"
     ];
   };
   nix.settings.experimental-features = [

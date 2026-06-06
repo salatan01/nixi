@@ -21,7 +21,7 @@
     ./home/defaults.nix
     ./home/fastfetch.nix
     ./home/ghostty.nix
-    # ./home/git.nix
+    ./home/git.nix
     ./home/kitty.nix
     ./home/librewolf.nix
     ./home/nvf.nix
